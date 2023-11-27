@@ -1,0 +1,161 @@
+import ipaddress
+from urllib.parse import urlparse
+import socket
+import subprocess
+import threading
+import time
+from techniques import *
+import os
+import random
+import queue,requests
+
+def ipchecker(ipa):
+    try:
+        ipaddress.ip_address(ipa)
+        print(f"valid ip {ipa}")
+        return True
+    except ValueError:
+        print(f"invalid ip {ipa}")
+        return False
+
+def strip(input_file):
+    with open(input_file, 'r') as file:
+        lines = [line.rstrip('\n') for line in file]
+    filtered_lines = [line for line in lines if line.strip()]
+
+    return filtered_lines
+
+def urlcheker(s):
+    print("url format :www.https://domain or www.http://domain")
+    url_pattern = r'^(http|https)://[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    x = bool(re.match(url_pattern,  s))
+
+    if s.startswith("www"):
+        print("valid url",s)
+        return True
+    parsed_url = urlparse(s)
+
+
+    if parsed_url.scheme in ['http', 'https'] and x == True:
+
+        print("valid url",s)
+
+        return True
+    else:
+      print("invalid url",s)
+      return False
+
+def domaintoip(inputs):
+    domin=inputs
+    ip_addresses = []
+    for do in domin:
+            try:
+                ip_addresses.append(socket.gethostbyname(do))
+            except socket.gaierror:
+                pass
+    return ip_addresses
+
+
+def file(file_path):
+
+    print("file path should the same path for tool")
+    if os.path.exists(file_path):
+        print(f"The file '{file_path}' exists.")
+    else:
+        print(f"The file '{file_path}' does not exist.")
+        exit()
+
+
+
+
+
+
+
+
+
+
+def vpn(openvpn_config_file,sudo_password,vpn_username,vpn_password ):
+    """print(
+        " enter your path to vpn ")  # "/home/kali/PycharmProjects/pythonProject/vpnbook-openvpn-ca196/vpnbook-ca196-udp53.ovpn"
+
+    = input("Enter your sudo password: ")
+
+    # Ask for the VPN username and password
+    = input("Enter your VPN username: ")
+
+= input("Enter your VPN password: ")"""
+    choose_random_file(openvpn_config_file)
+    userpass_content = f"{vpn_username}\n{vpn_password}"
+    with open("userpass.txt", "w") as userpass_file:
+        userpass_file.write(userpass_content)
+
+    command = f"echo '{sudo_password}' | sudo -S openvpn --config '{openvpn_config_file}' --auth-user-pass userpass.txt --comp-lzo no --daemon"
+
+    try:
+        subprocess.run(command, shell=True, check=True)
+    except subprocess.CalledProcessError as e:
+        print("Error:", e)
+
+
+def choose_random_file(folder_path):
+    files = os.listdir(folder_path)
+    if files:
+        random_file = random.choice(files)
+        return os.path.join(folder_path, random_file)
+    else:
+        print("Folder is empty.")
+        return None
+
+
+
+
+
+def validproxy():
+
+    q= queue.Queue()
+    validproxy=[]
+    with open("","r") as f:
+        proxies=f.read().split("\n")
+        for p in proxies:
+            q.put(p)
+def checkproxy():
+ global q
+ while not q.empty():
+    proxy=q.get
+    try :
+        res= requests.get("http://ipinfo.io/jason",proxies={"http":proxy,"https":proxy})
+    except:
+        continue
+    if res.status_code == 200:
+        print(proxy)
+
+
+
+def thread(url,srcport,dstport,dos,thread_num,second,forc,count):
+        #,#dos,thread_num):
+
+        #,#second,forc,count):
+        #thread = int(input("Enter the number of threads: "))
+        #second= int(input("Enter the number of seconds between each thread: "))
+
+
+        threads = []
+
+        try:
+
+            print("hi m")
+            for i in range(1, thread_num+1):
+                thread = threading.Thread(target=obada,args=(url,srcport,dstport,forc,count))
+                threads.append(thread)
+                thread.start()
+                time.sleep(second)
+
+            # Wait for all threads to finish
+            for thread in threads:
+                thread.join()
+        except threads:
+            pass
+
+
+def cop():
+     pass

